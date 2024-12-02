@@ -88,7 +88,7 @@ namespace BlogCore.AccesoDatos.Data.Repository
 
         public void Remove(T entity)
         {
-            dbSet.Remove(entity); : 
+            dbSet.Remove(entity);
         }
     }
 }

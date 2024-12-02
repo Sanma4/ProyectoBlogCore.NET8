@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlogCore.AccesoDatos.Data.Repository.IRepository
 {
-    public interface IContedorTrabajo : IDisposable
+    public interface IContenedorTrabajo : IDisposable
     {
         //Aquí agregar diferentes repositorios
 

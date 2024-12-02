@@ -7,9 +7,9 @@ namespace BlogCore.Areas.Admin.Controllers
     public class CategoriasController : Controller
     {
 
-        private readonly IContedorTrabajo _contenedorTrabajo;
+        private readonly IContenedorTrabajo _contenedorTrabajo;
 
-        public CategoriasController(IContedorTrabajo contenedorTrabajo)
+        public CategoriasController(IContenedorTrabajo contenedorTrabajo)
         {
             _contenedorTrabajo = contenedorTrabajo;
         }

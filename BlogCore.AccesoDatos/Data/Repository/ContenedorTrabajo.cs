@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BlogCore.AccesoDatos.Data.Repository
 {
-    public class ContenedorTrabajo : IContedorTrabajo
+    public class ContenedorTrabajo : IContenedorTrabajo
     {
         private readonly ApplicationDbContext _db;
 
