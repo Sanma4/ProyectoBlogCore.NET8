@@ -15,6 +15,9 @@ namespace BlogCore.Areas.Admin.Controllers
             _contenedorTrabajo = contenedorTrabajo;
         }
 
+
+
+
         [HttpGet]
         public IActionResult Index()
         {
