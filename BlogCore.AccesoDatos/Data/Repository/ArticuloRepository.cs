@@ -1,6 +1,7 @@
 ﻿using BlogCore.AccesoDatos.Data.Repository.IRepository;
 using BlogCore.Data;
 using BlogCore.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +18,15 @@ namespace BlogCore.AccesoDatos.Data.Repository
         {
             _db = db;
         }
+
+
         public void Update(Articulo articulo)
         {
             var objDesdeDb = _db.Articulo.FirstOrDefault(s => s.Id == articulo.Id);
             objDesdeDb.Nombre = articulo.Nombre;
             objDesdeDb.Descripcion = articulo.Descripcion;
-            objDesdeDb.FechaCreacion = articulo.FechaCreacion;
             objDesdeDb.UrlImagen = articulo.UrlImagen;
             objDesdeDb.CategoriaId = articulo.CategoriaId;
-            
 
             //_db.SaveChanges();
 

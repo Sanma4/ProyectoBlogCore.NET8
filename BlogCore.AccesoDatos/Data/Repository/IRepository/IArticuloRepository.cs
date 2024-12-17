@@ -1,4 +1,5 @@
 ﻿using BlogCore.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,6 @@ namespace BlogCore.AccesoDatos.Data.Repository.IRepository
     public interface IArticuloRepository : IRepository<Articulo>
     {
         void Update(Articulo articulo);
+
     }
 }
