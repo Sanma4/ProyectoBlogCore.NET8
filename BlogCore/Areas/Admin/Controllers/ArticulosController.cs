@@ -25,6 +25,16 @@ namespace BlogCore.Areas.Admin.Controllers
             return View();
         }
 
+        public object CargarCategoria()
+        {
+            ArticuloVM artiVM = new ArticuloVM()
+            {
+                Articulo = new BlogCore.Models.Articulo(),
+                ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias()
+            };
+            return View(artiVM);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {
@@ -59,6 +69,7 @@ namespace BlogCore.Areas.Admin.Controllers
 
                     artiVM.Articulo.UrlImagen = @"\imagenes\articulos\" + nombreArchivo + extension;
                     artiVM.Articulo.FechaCreacion = DateTime.Now.ToString();
+                    artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
 
                     //if (_contenedorTrabajo.Categoria.GetFirstOrDefault(c => c.Id == artiVM.Articulo.CategoriaId) == null)
                     //{
@@ -66,6 +77,8 @@ namespace BlogCore.Areas.Admin.Controllers
                     //    artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
                     //    return View(artiVM);
                     //}
+                    Console.WriteLine(_contenedorTrabajo.Categoria.GetFirstOrDefault(c => c.Id == artiVM.Articulo.CategoriaId));
+
                     _contenedorTrabajo.Articulo.Add(artiVM.Articulo);
                     _contenedorTrabajo.Save();
 
@@ -76,9 +89,9 @@ namespace BlogCore.Areas.Admin.Controllers
                     ModelState.AddModelError("Imagen", "Debes seleccionar una imagen");
                 }
 
-            }
+                artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
 
-            artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
+            }
 
             return View(artiVM);
         }

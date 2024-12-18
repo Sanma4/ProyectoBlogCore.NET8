@@ -36,13 +36,11 @@
 
             <div class="form-group row mb-3">
                 <div class="col-4">
-                    <label for="Categoría">Categoría</label>
+                    <label for="CategoriaId">Categoría</label>
                 </div>
-                <div class="col-8">
-                    @Html.DropDownListFor(m => m.Articulo.Categoria, Model.ListaCategorias, 
-                    "---Seleccione una categoría---", new {@class = "form-control" })
-
-                    <span asp-validation-for="Articulo.CategoriaId" class="text-danger"></span>
+                <div class="col-8"> 
+                    @Html.DropDownListFor(m => m.Articulo.CategoriaId, Model.ListaCategorias, 
+                    "---Seleccione una categoría---", new {@class = "form-control", @id="CategoriaId"})
                 </div>
             </div>
 

@@ -51,7 +51,7 @@ namespace BlogCore.Data.Migrations
 
                     b.HasIndex("CategoriaId");
 
-                    b.ToTable("Articulo");
+                    b.ToTable("Articulo", (string)null);
                 });
 
             modelBuilder.Entity("BlogCore.Models.Categoria", b =>
@@ -71,7 +71,7 @@ namespace BlogCore.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categoria");
+                    b.ToTable("Categoria", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

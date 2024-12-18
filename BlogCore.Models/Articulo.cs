@@ -30,7 +30,7 @@ namespace BlogCore.Models
         [Required(ErrorMessage = "La Categoría es requerida")]
         public int CategoriaId { get; set; }
 
-        [ForeignKey("CategoriaId")]
+        [ForeignKey(nameof(CategoriaId))]
         public Categoria Categoria { get; set; }
     }
 }
