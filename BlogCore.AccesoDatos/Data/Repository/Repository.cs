@@ -30,6 +30,7 @@ namespace BlogCore.AccesoDatos.Data.Repository
             return dbSet.Find(id);
         }
 
+
         public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
         {
             //Se trae una lista del modelo que este consultando

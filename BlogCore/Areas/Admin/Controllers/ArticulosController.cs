@@ -1,5 +1,7 @@
 ﻿using BlogCore.AccesoDatos.Data.Repository.IRepository;
+using BlogCore.Models;
 using BlogCore.Models.ViewModels;
+using Microsoft.AspNetCore.JsonPatch.Internal;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -71,16 +73,9 @@ namespace BlogCore.Areas.Admin.Controllers
                     artiVM.Articulo.FechaCreacion = DateTime.Now.ToString();
                     artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
 
-                    //if (_contenedorTrabajo.Categoria.GetFirstOrDefault(c => c.Id == artiVM.Articulo.CategoriaId) == null)
-                    //{
-                    //    ModelState.AddModelError("CategoriaId", "Id de categoría inválido");
-                    //    artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
-                    //    return View(artiVM);
-                    //}
-                    Console.WriteLine(_contenedorTrabajo.Categoria.GetFirstOrDefault(c => c.Id == artiVM.Articulo.CategoriaId));
-
                     _contenedorTrabajo.Articulo.Add(artiVM.Articulo);
                     _contenedorTrabajo.Save();
+
 
                     return RedirectToAction(nameof(Index));
                 }
@@ -95,6 +90,92 @@ namespace BlogCore.Areas.Admin.Controllers
 
             return View(artiVM);
         }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            ArticuloVM artiVM = new ArticuloVM()
+            {
+                Articulo = new BlogCore.Models.Articulo(),
+                ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias()
+            };
+
+            if (id != null)
+            {
+                artiVM.Articulo = _contenedorTrabajo.Articulo.Get(id.GetValueOrDefault());
+            }
+
+            return View(artiVM);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(ArticuloVM artiVM)
+        {
+            if (ModelState.IsValid)
+            {
+                //Tomo la ruta a wwwroot.
+                string rutaPrincipal = _hostingEnvironment.WebRootPath;
+
+                //Accedo a los archivos del form.
+                var archivos = HttpContext.Request.Form.Files;
+
+                var articuloDB = _contenedorTrabajo.Articulo.Get(artiVM.Articulo.Id);
+
+                if (archivos.Count() > 0)//Valido si se va a cambiar la imagen o no.
+                {
+
+                    //Genero identificador unico para el nombre.
+                    string nombreArchivo = Guid.NewGuid().ToString();
+                    var subidas = Path.Combine(rutaPrincipal, @"imagenes\articulos");
+                    var extension = Path.GetExtension(archivos[0].FileName);
+                    var nuevaExtension = Path.GetExtension(archivos[0].FileName);
+
+                    //Borro la \ del principio de la ruta.
+                    var rutaImagen = Path.Combine(rutaPrincipal, articuloDB.UrlImagen.TrimStart('\\'));
+
+                    if (System.IO.File.Exists(rutaImagen))
+                    {
+                        System.IO.File.Delete(rutaImagen);
+                    }
+
+                    //Subo el archivo nuevamente
+                    using (var filesStreams = new FileStream(Path.Combine(subidas, nombreArchivo + extension), FileMode.Create))
+                    {
+                        archivos[0].CopyTo(filesStreams);
+                    }
+
+                    artiVM.Articulo.UrlImagen = @"\imagenes\articulos\" + nombreArchivo + extension;
+                    artiVM.Articulo.FechaCreacion = articuloDB.FechaCreacion;
+                    artiVM.ListaCategorias = _contenedorTrabajo.Categoria.GetListaCategorias();
+
+
+                    _contenedorTrabajo.Articulo.Update(artiVM.Articulo);
+                    _contenedorTrabajo.Save();
+
+
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    //Si no se quiere cambiar la imagen, sigue la misma
+                    artiVM.Articulo.UrlImagen = articuloDB.UrlImagen;
+                }
+
+                _contenedorTrabajo.Articulo.Update(artiVM.Articulo);
+                _contenedorTrabajo.Save();
+
+
+                return RedirectToAction(nameof(Index));
+
+            }
+
+            return View(artiVM);
+        }
+
+        
+
+        
 
 
         #region Llamadas API
