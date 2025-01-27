@@ -14,21 +14,24 @@
 @if (Model.listArticulo.Count() > 0)
 {
     <hr />
-    @foreach (var articulo in Model.listArticulo.OrderBy(o => o.Id))
-    {
-        <div class="col-4">
-            <div class="card">
-                <img src="@articulo.UrlImagen" class="img-thumbnail" width="100%" />
-                <div class="card-body">
-                    <h5 class="text-center">@articulo.Nombre</h5>
-                    <a asp-action="Detalle" class="btn btn-dark mt-2" style="border-radius: 10px;" asp-route-id="@articulo.Id">
-                        Más información
-                    </a>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        @foreach (var articulo in Model.listArticulo.OrderBy(o => o.Id))
+        {
+
+            <div class="col-4">
+                <div class="card">
+                    <img src="@articulo.UrlImagen" class="img-thumbnail" width="100%" />
+                    <div class="card-body">
+                        <h5 class="text-center">@articulo.Nombre</h5>
+                        <a asp-action="Detalle" class="btn btn-dark mt-2" style="border-radius: 10px;" asp-route-id="@articulo.Id">
+                            Más información
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
 
-    }
+        }
+    </div>
 }
 else
 {

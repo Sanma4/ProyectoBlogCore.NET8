@@ -30,6 +30,12 @@ namespace BlogCore.Areas.Cliente.Controllers
             return View(homeVM);
         }
 
+        public IActionResult Detalle(int id)
+        {
+            var articuloDB = _contenedorTrabajo.Articulo.Get(id);
+            return View(articuloDB);
+        }
+
         public IActionResult Privacy()
         {
             return View();
