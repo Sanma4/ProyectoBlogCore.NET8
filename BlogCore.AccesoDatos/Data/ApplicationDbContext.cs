@@ -14,7 +14,8 @@ namespace BlogCore.Data
         //Poner todos los modelos que se creen acá
         public DbSet<Categoria> Categoria { get; set; } 
         public DbSet<Articulo> Articulo { get; set; } 
-
-        public DbSet<Slider> Slider { get; set; }    
+        public DbSet<Slider> Slider { get; set; }  
+        public DbSet<ApplicationUser> ApplicationUser { get; set; }  
+        
     }
 }
