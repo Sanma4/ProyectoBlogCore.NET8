@@ -15,7 +15,7 @@ namespace BlogCore.Models
 
         [Required(ErrorMessage = "La dirección es requerida")]
         [Display(Name = "Dirección")]
-        public string Dirección { get; set; }
+        public string Direccion { get; set; }
 
         [Required(ErrorMessage = "La ciudad es requerida")]
         public string Ciudad { get; set; }
