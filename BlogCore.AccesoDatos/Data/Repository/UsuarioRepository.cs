@@ -21,14 +21,14 @@ namespace BlogCore.AccesoDatos.Data.Repository
 
         public void BloquearUsuario(string IdUsuario)
         {
-            var usuarioDb = _db.ApplicationUser.FirstOrDefault();
+            var usuarioDb = _db.ApplicationUser.FirstOrDefault(u => u.Id == IdUsuario);
             usuarioDb.LockoutEnd = DateTime.Now.AddYears(1000);
             _db.SaveChanges();
         }
 
         public void DesbloquearUsuario(string IdUsuario)
         {
-            var usuarioDb = _db.ApplicationUser.FirstOrDefault();
+            var usuarioDb = _db.ApplicationUser.FirstOrDefault(u => u.Id == IdUsuario);
             usuarioDb.LockoutEnd = DateTime.Now;
             _db.SaveChanges();
         }
