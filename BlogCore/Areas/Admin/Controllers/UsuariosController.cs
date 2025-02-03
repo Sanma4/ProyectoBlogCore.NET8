@@ -1,8 +1,11 @@
 ﻿using BlogCore.AccesoDatos.Data.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BlogCore.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     [Area("Admin")]
     public class UsuariosController : Controller
     {
@@ -17,7 +20,14 @@ namespace BlogCore.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(_contenedorTrabajo.Usuario.GetAll());
+            //Opcion 1 aparecen todos los usuarios
+            //return View(_contenedorTrabajo.Usuario.GetAll());
+
+            //Opcion 2: El usuario que accedio no aparece en la lista.
+            var claimsIdentity = (ClaimsIdentity)this.User.Identity;
+            var usuarioActual = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            return View(_contenedorTrabajo.Usuario.GetAll(u => u.Id != usuarioActual.Value));
         }
 
         [HttpGet]
