@@ -12,5 +12,7 @@ namespace BlogCore.AccesoDatos.Data.Repository.IRepository
     {
         void Update(Articulo articulo);
 
+        IQueryable<Articulo> AsQueryable();
+
     }
 }
