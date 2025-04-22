@@ -22,4 +22,8 @@
     <ProjectReference Include="..\BlogCore.Utilities\BlogCore.Utilities.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\initializer\" />
+  </ItemGroup>
+
 </Project>

@@ -1,3 +1,4 @@
+using BlogCore.AccesoDatos.Data.Inicializador;
 using BlogCore.AccesoDatos.Data.Repository;
 using BlogCore.AccesoDatos.Data.Repository.IRepository;
 using BlogCore.Data;
@@ -21,6 +22,9 @@ builder.Services.AddControllersWithViews();
 //Agregar contenedor de trabajo al contenedor IoC de inyecci�n de dependencias
 builder.Services.AddScoped<IContenedorTrabajo, ContenedorTrabajo>();
 
+//Agrezar seeding
+builder.Services.AddScoped<IInicializador, Inicializador>();
+
 
 var app = builder.Build();
 
@@ -35,6 +39,8 @@ else
 }
 app.UseStaticFiles();
 
+SiembraDatos();
+
 app.UseRouting();
 
 app.UseAuthorization();
@@ -45,3 +51,12 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+
+void SiembraDatos()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var inicializadorDB = scope.ServiceProvider.GetRequiredService<IInicializador>();
+        inicializadorDB.Inicializar();
+    }
+}

@@ -3,6 +3,7 @@ using BlogCore.Models;
 using BlogCore.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Drawing.Printing;
 
 namespace BlogCore.Areas.Cliente.Controllers
 {
@@ -17,18 +18,39 @@ namespace BlogCore.Areas.Cliente.Controllers
             _contenedorTrabajo = contenedorTrabajo;
         }
 
-        public IActionResult Index()
+        //Página de inicio sin paginación
+        //public IActionResult Index()
+        //{
+        //    HomeVM homeVM = new HomeVM()
+        //    {
+        //        slider = _contenedorTrabajo.Slider.GetAll(),
+        //        listArticulo = _contenedorTrabajo.Articulo.GetAll()
+        //    };
+
+        //    ViewBag.IsHome = true;
+
+        //    return View(homeVM);
+        //}
+
+        //Pagina de inicio con paginación
+        public IActionResult Index(int page = 1, int pageSize = 6)
         {
+            var articulos = _contenedorTrabajo.Articulo.AsQueryable();
+            var paginatedEntries = articulos.Skip((page - 1) * pageSize).Take(pageSize);
+
             HomeVM homeVM = new HomeVM()
             {
                 slider = _contenedorTrabajo.Slider.GetAll(),
-                listArticulo = _contenedorTrabajo.Articulo.GetAll()
+                listArticulo = paginatedEntries.ToList(),
+                PageIndex = page,
+                TotalPages = (int)Math.Ceiling(articulos.Count() / (double)pageSize)
             };
 
             ViewBag.IsHome = true;
 
             return View(homeVM);
         }
+
 
         public IActionResult ResultadoBusqueda(string stringSearch, int page = 1, int pageSize = 6)
         {
